@@ -6,8 +6,8 @@ session_start();
 //  MENSAJES DE ERROR
 $log_error = "";
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_formatoEmail')){$log_error = "El formato del email es erroneo.";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='en_uso')){$log_error = "Su usuario ya está en uso.";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='mensaje_error')){$log_error = "Su usuario o contraseña son incorrectos";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_enUso')){$log_error = "Su usuario ya está en uso.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_datosMal')){$log_error = "Su usuario o contraseña son incorrectos";}
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='gracias')){$log_error = "Gracias por utilizar nuestra web";}
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='sin_permiso')){$log_error = "No tienes permiso para acceder a esta URL";}
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='inicia')){$log_error = "Registrado. Identificate ahora.";}
