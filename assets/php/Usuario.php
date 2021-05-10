@@ -1,51 +1,46 @@
 <?php
-include('db.php');
+include('pdo.php');
 include('Funciones.php');
 class Usuario {
 
-    public static function crearUsuario($username, $password) {
-        if (validarEmail($username) == true) {   
+    static public function crearUsuario($username, $password) {
+        if(validarEmail($username) == true) {
             $hashpass = password_hash($password, PASSWORD_ARGON2ID);
-            $dbCall = new Database;
-            $listar = $dbCall->query("SELECT * FROM users");
-            $searchForEmail = false;
-            if($listar['username'] == $username) {
-                $searchForEmail = true;
-                header('Location: Index.php?mensaje=en_uso');
+            $user = Database::addQuery("SELECT username FROM users", null);
+            $isRegistered = false;
+            foreach($user as $row) {
+                if ($row['username']==$username) {
+                    $isRegistered = true;
+                    header('Location: index.php?mensaje=error_enUso');
+                    break;
+                } 
             }
-            if ($searchForEmail == false) {
-                echo $hashpass."<br>";
-                echo $username;
-                $dbCall->query("INSERT INTO `users`(`username`, `password`) VALUES ('$username','$hashpass')");
+            if($isRegistered == false) {
+                Database::addQuery("INSERT INTO `users`(`username`, `password`) VALUES ('$username','$hashpass')", null);
+                Usuario::identificarUsuario($username, $password);
+                header('Location: Index.php');
             }
         } else {
             header('Location: Index.php?mensaje=error_formatoEmail');
         }
     }
 
-    public static function identificarUsuario($username, $password) {
+    static public function identificarUsuario($username, $password) {
         if(validarEmail($username) == true)  {
-            $dbCall = new Database;
-            $listar = $dbCall->query("SELECT * FROM `users` WHERE username='$username'");
-            /*while($filas = $listar->fetch_assoc()){}*/
-            if ($listar != false) {
-                if($listar['username'] == $username && password_verify($password, $listar['password']) == true) {
-                    $_SESSION['id']=$listar['id'];
-                    $_SESSION['username']=$listar['username'];
-                    $_SESSION['level']=$listar['level'];
-                    $_SESSION['moneda']=$listar['moneda'];
+            $user = Database::addQuery("SELECT * FROM `users` WHERE username=?", $username);
+            foreach($user as $row) {
+                if($row['username'] == $username && password_verify($password, $row['password']) == true) {
+                    $_SESSION['id']=$row['id'];
+                    $_SESSION['username']=$row['username'];
+                    $_SESSION['level']=$row['level'];
+                    $_SESSION['moneda']=$row['moneda'];
                 } else {
-                    header('Location: Index.php?mensaje=mensaje_error');
+                    header('Location: Index.php?mensaje=error_datosMal');
                 }
-            } else {
-                header('Location: Index.php?mensaje=mensaje_error');
             }
-            
-
         } else {
             header('Location: Index.php?mensaje=error_formatoEmail');
         }
     }
-
 }
 ?>
