@@ -13,32 +13,17 @@ class Database extends PDO {
         parent::__construct($dns, $settings['database']['username'], $settings['database']['password']);
     }
 
-    static public function addQuery($sentencia) {
+    static public function addQuery($sentencia, $param1) {
         $conexion = new Database();
         $query = $conexion->prepare($sentencia);
-        $query->execute();
-        $query->fetchAll(PDO::FETCH_ASSOC);
-        return $query;
-    }
-
-    static public function getInfo() {
-        $conexion = new Database();
-        $getInfo = $conexion->prepare("SELECT id,email,moneda FROM users");
-        if (!$getInfo) {
-            print "feo";
+        if($param1 == null) {
+            $query->execute();
+        } else {
+            $query->bindParam(1, $param1);
+            $query->execute();
         }
-        $getInfo->execute();
-        return $getInfo;
-    }
-
-    static public function getUserInfo($a) {
-        $conexion = new Database();
-        $getInfo = $conexion->prepare("SELECT id,email,moneda FROM users WHERE id=?");
-        $getInfo->bindParam(1, $a);
-        $getInfo->execute();
-        while($filas = $getInfo->fetch(PDO::FETCH_BOTH)) {
-            print "ID=".$filas[0]." email=".$filas[1]." moneda=".$filas[2];
-        }
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
 
