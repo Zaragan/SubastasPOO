@@ -7,17 +7,17 @@ class Subasta {
     }
 
     public static function mostarTodas() {
-        $dbCall = new Database();
-        $users = $dbCall->sendQuery("SELECT * FROM subastas");
-        while ($filas = mysqli_fetch_assoc($users)) {
-            $fecha_creada = date("d / m / Y - G:i", $filas['fecha']);
-            $fecha_fin = date("d / m / Y - G:i", $filas['fecha_fin']);
+        $subastas = Database::addQuery("SELECT * FROM subastas", null);
+        foreach($subastas as $row) {
+            $fecha_creada = date("d / m / Y - G:i", $row['fecha']);
+            $fecha_fin = date("d / m / Y - G:i", $row['fecha_fin']);
             echo '<tr>';
-                echo '<td>'.$filas['nombre'].'</td>';
+                echo '<td>'.$row['nombre'].'</td>';
                 echo '<td>'.$fecha_creada.'</td>';
                 echo '<td>'.$fecha_fin.'</td>';
-                echo '<td>'.$filas['precio_salida'].'</td>';
-                echo '<td>'.$filas['precio_actual'].'</td>';
+                echo '<td>'.$row['precio_salida'].'</td>';
+                echo '<td>'.$row['precio_actual'].'</td>';
+            echo '</tr>';
         }
     }
 
