@@ -8,7 +8,7 @@ class Database extends PDO {
         $dns = $settings['database']['driver'] .
         ':host=' . $settings['database']['host'] .
         ((!empty($settings['database']['port'])) ? (';port=' . $settings['database']['port']) : '') .
-        ';dbname=' . $settings['database']['table'];
+        ';dbname=' . $settings['database']['name'];
        
         parent::__construct($dns, $settings['database']['username'], $settings['database']['password']);
     }
