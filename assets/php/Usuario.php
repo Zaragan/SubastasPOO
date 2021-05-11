@@ -1,6 +1,5 @@
 <?php
-include('pdo.php');
-include('Funciones.php');
+
 class Usuario {
 
     static public function crearUsuario($username, $password) {
@@ -30,7 +29,7 @@ class Usuario {
             $user = Database::addQuery("SELECT * FROM `users` WHERE username=?", $username);
             foreach($user as $row) {
                 if($row['username'] == $username && password_verify($password, $row['password']) == true) {
-                    $_SESSION['id']=$row['id'];
+                    $_SESSION['uid']=$row['uid'];
                     $_SESSION['username']=$row['username'];
                     $_SESSION['level']=$row['level'];
                     $_SESSION['moneda']=$row['moneda'];
@@ -40,6 +39,14 @@ class Usuario {
             }
         } else {
             header('Location: Index.php?mensaje=error_formatoEmail');
+        }
+    }
+
+    static public function getMoneda($username) {
+        $user = Database::addQuery("SELECT * FROM `users` WHERE uid=?", $username);
+        foreach($user as $row) {
+            $moneda = $row['moneda'];
+            return $moneda;
         }
     }
 }
