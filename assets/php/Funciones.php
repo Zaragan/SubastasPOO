@@ -18,7 +18,7 @@ function menu() {
         $menu = '<ul>
                     <li><a href="Index.php">Inicio</a></li>
                     <li><a href="Subastar.php">Crear subastas</a></li>
-                    <li>Moneda: '.$_SESSION['moneda'].'</li>
+                    <li>Moneda: '.Usuario::getMoneda($_SESSION['uid']).'</li>
                     <li class="menu"><p>Bienvenido admin '.$_SESSION['username'].'</p><a href="assets/php/desconectar.php">Desconectar</a></li>
                 </ul>';
     } else {
@@ -26,7 +26,7 @@ function menu() {
         $menu = '<ul>
                     <li><a href="Index.php">Inicio</a></li>
                     <li><a href="Subastar.php">Crear subastas</a></li>
-                    <li>Moneda: '.$_SESSION['moneda'].'</li>
+                    <li>Moneda: '.Usuario::getMoneda($_SESSION['uid']).'</li>
                     <li class="menu"><p>Bienvenido '.$_SESSION['username'].'</p><a href="assets/php/desconectar.php">Desconectar</a></li>
                 </ul>';
     }
