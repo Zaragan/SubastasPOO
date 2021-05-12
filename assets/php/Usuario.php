@@ -1,9 +1,9 @@
 <?php
-
+include_once("assets/php/pdo.php");
 class Usuario {
 
     static public function crearUsuario($username, $password) {
-        if(validarEmail($username) == true) {
+        if(Funciones::validarEmail($username) == true) {
             $hashpass = password_hash($password, PASSWORD_ARGON2ID);
             $user = Database::addQuery("SELECT username FROM users", null);
             $isRegistered = false;
@@ -25,7 +25,7 @@ class Usuario {
     }
 
     static public function identificarUsuario($username, $password) {
-        if(validarEmail($username) == true)  {
+        if(Funciones::validarEmail($username) == true)  {
             $user = Database::addQuery("SELECT * FROM `users` WHERE username=?", $username);
             foreach($user as $row) {
                 if($row['username'] == $username && password_verify($password, $row['password']) == true) {
