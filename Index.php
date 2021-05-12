@@ -1,6 +1,7 @@
 <?php
 include("assets/php/Usuario.php");
 include("assets/php/Subasta.php");
+include("assets/php/Funciones.php");
 session_start();
 
 //  MENSAJES DE ERROR
@@ -18,6 +19,15 @@ if(isset($_POST['crear_usuario'])) {
 if(isset($_POST['identificar'])) {
     Usuario::identificarUsuario($_POST['user'],$_POST['password']);
 }
+if(isset($_POST['enviar'])) {
+    Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);
+}
+if(isset($_POST['pujar'])) {
+    Subasta::pujar($_POST['sid'], $_POST['puja']);
+    echo $_POST['sid'], $_POST['puja'];
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,10 +40,29 @@ if(isset($_POST['identificar'])) {
     <title>Subastas</title>
 </head>
 <body>
-    <div class="header"><?php menu();?></div>
-    
+    <!-- // Menu superior -->
+    <div class="header"><?php Funciones::menu();?></div>
+    <!-- // Menu creacion de subastas -->
+    <?php if(isset($_GET['page'])&&($_GET['page']=='new_subasta')){ ?>
+        <div class="main">
+            <p>Creación de subasta</p> <br />
+            <form method="post">
+                <label for="sNombre">Nombre: </label>
+                <input type="text" name="sNombre" id="sPrecio">
+                <label for="sPrecio">Precio: </label>
+                <input name="sPrecio" id="sPrecio">
+                <select name="tiempo" id="timepo">
+                    <option value="1day">1 día</option>
+                    <option value="1week">1 mes</option>
+                    <option value="1month">1 año</option>
+                </select>
+                <input type="submit" value="Enviar" name="enviar" class="btn">
+            </form>
+        </div>
+    <?php } ?>
+    <!-- // Muestra la tabla de subastas -->
     <div class="main">
-        <?php if(isset($_SESSION['level'])) { ?>
+    <?php if(isset($_SESSION['level'])) { ?>
             <table>
                 <tr>
                     <th>Nombre</th>
@@ -41,12 +70,14 @@ if(isset($_POST['identificar'])) {
                     <th>Fecha Fin</th>
                     <th>Precio Salida</th>
                     <th>Precio Actual</th>
+                    <th>Puja</th>
                 </tr>
                 <?php Subasta::mostarTodas() ?>
-                <?php main(); ?>
             </table>
         <?php } else {echo '<p style="width: 100%" class="tac">Bienvenido. Esta es la página principal para las subastas, identifícate para poder ver la lista de subastas.</p>';} ?>
     </div>
+    
+    
     
     <p style="width:100%"><?php echo $log_error ?></p>
 </body>
