@@ -38,7 +38,8 @@ class Subasta {
                 echo '<td>'.$row['precio_salida'].'</td>';
                 echo '<td>'.$row['precio_actual'].'</td>';
                 echo '<td><form method="post"><input type="text" name="puja"></td>';
-                echo '<td><input type="submit" value="pujar" name="'.$row['sid'].'" class="btn"></form></td>';
+                echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
+                echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
             echo '</tr>';
         }
     }
@@ -59,8 +60,33 @@ class Subasta {
     }
 
     static public function pujar($sid, $cantidad) {
-        $subasta = Database::addQuery("SELECT precio_actual FROM subastas WHERE sid=?", $sid);
-        header('Location: Index.php?cantidad='.$subasta.'');
+        
+        //  Sacamos el precio de la subasta y calculamos el 15%
+        $precio_actual = Database::addQuery("SELECT precio_actual FROM subastas WHERE sid=?", $sid);
+        foreach($precio_actual as $row) {
+            $precio_actual = $row['precio_actual'];
+        }
+        $precio_actual += $precio_actual*15/100;
+
+        //  Sacamos la moneda del usuario
+        $moneda = Database::addQuery("SELECT moneda FROM users WHERE uid=?", $_SESSION['uid']);
+        foreach($moneda as $row) {
+            $moneda = $row['moneda'];
+        }
+        //  Si precio es mayor que moneda eres pobre
+        if ($precio_actual > $moneda) {
+            header('Location: Index.php?mensaje=error_pobre');
+        //  Si precio es mayor que tu puja, mete mas dinero
+        } else if ($precio_actual > $cantidad) {
+            header('Location: Index.php?mensaje=error_minima_puja');
+        } else if ($moneda <= $cantidad) {
+            header('Location: Index.php?mensaje=error_pobre');
+        } else {
+            Database::addQuery("UPDATE `subastas` SET `precio_actual`= $cantidad WHERE sid=?", $sid);
+            $moneda -= $cantidad;
+            Database::addQuery("UPDATE `users` SET `moneda`= $moneda WHERE uid=?", $_SESSION['uid']);
+            header('Location: Index.php');
+        }        
     }
 }
 
