@@ -6,12 +6,13 @@ session_start();
 
 //  MENSAJES DE ERROR
 $log_error = "";
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_formatoEmail')){$log_error = "El formato del email es erroneo.";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_enUso')){$log_error = "Su usuario ya está en uso.";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_datosMal')){$log_error = "Su usuario o contraseña son incorrectos";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='gracias')){$log_error = "Gracias por utilizar nuestra web";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='sin_permiso')){$log_error = "No tienes permiso para acceder a esta URL";}
-if(isset($_GET['mensaje'])&&($_GET['mensaje']=='inicia')){$log_error = "Registrado. Identificate ahora.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_formatoEmail')){$log_error = "<br><br>El formato del email es erroneo.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_enUso')){$log_error = "<br><br>Su usuario ya está en uso.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_datosMal')){$log_error = "<br><br>Su usuario o contraseña son incorrectos";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_minima_puja')){$log_error = "<br><br>Su puja no se realizó. Tiene que pujar un 15% más que el precio actual.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_pobre')){$log_error = "<br><br>No tienes moneda suficiente para esa puja.";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='sin_permiso')){$log_error = "<br><br>No tienes permiso para acceder a esta URL";}
+if(isset($_GET['mensaje'])&&($_GET['mensaje']=='inicia')){$log_error = "<br><br>Registrado. Identificate ahora.";}
 
 if(isset($_POST['crear_usuario'])) {
     Usuario::crearUsuario($_POST['user'],$_POST['password']);
@@ -24,9 +25,7 @@ if(isset($_POST['enviar'])) {
 }
 if(isset($_POST['pujar'])) {
     Subasta::pujar($_POST['sid'], $_POST['puja']);
-    echo $_POST['sid'], $_POST['puja'];
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -43,6 +42,7 @@ if(isset($_POST['pujar'])) {
     <!-- // Menu superior -->
     <div class="header"><?php Funciones::menu();?></div>
     <!-- // Menu creacion de subastas -->
+    <p style="width:100%; text-align:center; color:red"><?php echo $log_error;  ?></p>
     <?php if(isset($_GET['page'])&&($_GET['page']=='new_subasta')){ ?>
         <div class="main">
             <p>Creación de subasta</p> <br />
@@ -79,6 +79,6 @@ if(isset($_POST['pujar'])) {
     
     
     
-    <p style="width:100%"><?php echo $log_error ?></p>
+    
 </body>
 </html>
