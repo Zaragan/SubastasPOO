@@ -165,9 +165,20 @@ p {
 
 .main, .tabla {
 	display: flex;
-	flex-direction: column;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
 	margin-top: 20px;
+}
+.moneda{text-align: center;width: 100%;}
+.eSubasta{
+	width: 30%;
+	text-align: center;
+}
+.eSubasta form, .eUsuario form{
+	display: flex;
+	flex-direction: column;}
+.eUsuario{
+	width: 30%;
+	text-align: center;
 }
