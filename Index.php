@@ -34,8 +34,30 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
 <body>
     <!-- // Menu superior -->
     <div class="header"><?php Funciones::menu();?></div>
-    <!-- // Menu creacion de subastas -->
+    <!-- // Caja de errores -->
     <p style="width:100%; text-align:center; color:red"><?php echo $log_error;  ?></p>
+    <!-- // Editor de subastas y usuarios -->
+    <?php if($_SESSION['level'] == 1 ) { ?>
+    <div class="main">
+        <!-- // Menu edicion de subastas -->
+        <div class="eSubasta">
+            <p>Edición de subasta</p> <br />
+            <form method="post">
+                <label for="subastaId">Id de la subasta: </label>
+                <input name="subastaId" id="subastaId">
+                <label for=""></label>
+                <input type="text">
+                
+                <input type="submit" value="Editar" name="editarSubastas" class="btn">
+            </form>
+        </div>
+        <!-- // Menu edicion de usuarios -->
+        <div class="eUsuario">
+            <p>Edición de usuarios</p>
+        </div>
+    </div>
+    <?php } ?>
+    <!-- // Menu creacion de subastas -->
     <?php if(isset($_GET['page'])&&($_GET['page']=='new_subasta')){ ?>
         <div class="main">
             <p>Creación de subasta</p> <br />
@@ -53,18 +75,6 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
             </form>
         </div>
     <?php } ?>
-    <!-- // Menu edicion de subastas -->
-    <?php if($_SESSION['level'] == 1 ){ ?>
-        <div class="main">
-            <p>Edición de subasta</p> <br />
-            <form method="post">
-                <label for="subastaId">Id de la subasta: </label>
-                <input name="subastaId" id="subastaId">
-                <input type="submit" value="Editar" name="editarSubastas" class="btn">
-            </form>
-            <?php  ?>
-        </div>
-    <?php } ?>
     <!-- // Muestra la tabla de subastas -->
     <div class="main">
     <?php if(isset($_SESSION['level'])) { ?>
@@ -79,7 +89,7 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
                     <th>Puja</th>
                     <th></th>
                 </tr>
-                <?php Subasta::mostarTodas() ?>
+                <?php if($_SESSION['level'] == 1){Subasta::mostrarTodas();} else { Subasta::mostarSubastas();} ?>
             </table>
         <?php } else {echo '<p style="width: 100%" class="tac">Bienvenido. Esta es la página principal para las subastas, identifícate para poder ver la lista de subastas.</p>';} ?>
     </div>
