@@ -81,6 +81,14 @@ class Subasta {
                 echo '<td><form method="post"><input type="text" name="puja"></td>';
                 echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
                 echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
+                if($_SESSION['level'] == 1) {
+                    echo '<td></td>';
+                    if($row['caducada'] == 1){
+                        echo '<td>Si</td>';
+                    } else {
+                        echo '<td>No</td>';
+                    }
+                };
             echo '</tr>';
         }
     }
