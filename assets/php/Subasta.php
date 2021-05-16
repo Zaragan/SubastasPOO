@@ -31,7 +31,7 @@ class Subasta {
     }
 
 
-    static public function mostarTodas() {
+    static public function mostarSubastas() {
         $subastas = Database::addQuery("SELECT * FROM subastas", null);
         foreach($subastas as $row) {
             $fecha_creada = date("d / m / Y - G:i", $row['fecha']);
@@ -59,6 +59,29 @@ class Subasta {
                     echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
                 echo '</tr>';
             }
+        }
+    }
+
+    static public function mostrarTodas() {
+        $subastas = Database::addQuery("SELECT * FROM subastas", null);
+        foreach($subastas as $row) {
+            $fecha_creada = date("d / m / Y - G:i", $row['fecha']);
+            $fecha_fin = date("d / m / Y - G:i", $row['fecha_fin']);
+            echo '<tr>';
+                if($_SESSION['level'] == 1) {
+                    echo '<td>'.$row['sid'].'</td>';
+                    echo '<td>'.$row['nombre'].'</td>';
+                } else {
+                    echo '<td>'.$row['nombre'].'</td>';
+                };
+                echo '<td>'.$fecha_creada.'</td>';
+                echo '<td>'.$fecha_fin.'</td>';
+                echo '<td>'.$row['precio_salida'].'</td>';
+                echo '<td>'.$row['precio_actual'].'</td>';
+                echo '<td><form method="post"><input type="text" name="puja"></td>';
+                echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
+                echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
+            echo '</tr>';
         }
     }
 
