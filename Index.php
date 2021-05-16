@@ -13,19 +13,12 @@ if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_minima_puja')){$log_error 
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_pobre')){$log_error = "<br><br>No tienes moneda suficiente para esa puja.";}
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='sin_permiso')){$log_error = "<br><br>No tienes permiso para acceder a esta URL";}
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='inicia')){$log_error = "<br><br>Registrado. Identificate ahora.";}
-
-if(isset($_POST['crear_usuario'])) {
-    Usuario::crearUsuario($_POST['user'],$_POST['password']);
-}
-if(isset($_POST['identificar'])) {
-    Usuario::identificarUsuario($_POST['user'],$_POST['password']);
-}
-if(isset($_POST['enviar'])) {
-    Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);
-}
-if(isset($_POST['pujar'])) {
-    Subasta::pujar($_POST['sid'], $_POST['puja']);
-}
+// ENVIO DE FORMULARIOS
+if(isset($_POST['crear_usuario'])) {Usuario::crearUsuario($_POST['user'],$_POST['password']);}
+if(isset($_POST['identificar'])) {Usuario::identificarUsuario($_POST['user'],$_POST['password']);}
+if(isset($_POST['enviar'])) {Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);}
+if(isset($_POST['pujar'])) {Subasta::pujar($_POST['sid'], $_POST['puja']);}
+if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
 
 ?>
 <!DOCTYPE html>
@@ -60,17 +53,31 @@ if(isset($_POST['pujar'])) {
             </form>
         </div>
     <?php } ?>
+    <!-- // Menu edicion de subastas -->
+    <?php if($_SESSION['level'] == 1 ){ ?>
+        <div class="main">
+            <p>Edición de subasta</p> <br />
+            <form method="post">
+                <label for="subastaId">Id de la subasta: </label>
+                <input name="subastaId" id="subastaId">
+                <input type="submit" value="Editar" name="editarSubastas" class="btn">
+            </form>
+            <?php  ?>
+        </div>
+    <?php } ?>
     <!-- // Muestra la tabla de subastas -->
     <div class="main">
     <?php if(isset($_SESSION['level'])) { ?>
             <table>
                 <tr>
+                    <?php if($_SESSION['level'] == 1) { ?><th>Id</th><?php } ?>
                     <th>Nombre</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
                     <th>Precio Salida</th>
                     <th>Precio Actual</th>
                     <th>Puja</th>
+                    <th></th>
                 </tr>
                 <?php Subasta::mostarTodas() ?>
             </table>
