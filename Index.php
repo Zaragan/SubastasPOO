@@ -19,6 +19,7 @@ if(isset($_POST['identificar'])) {Usuario::identificarUsuario($_POST['user'],$_P
 if(isset($_POST['enviar'])) {Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);}
 if(isset($_POST['pujar'])) {Subasta::pujar($_POST['sid'], $_POST['puja']);}
 if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
+if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SESSION['uid']);}
 
 ?>
 <!DOCTYPE html>
@@ -37,23 +38,40 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
     <!-- // Caja de errores -->
     <p style="width:100%; text-align:center; color:red"><?php echo $log_error;  ?></p>
     <!-- // Editor de subastas y usuarios -->
-    <?php if($_SESSION['level'] == 1 ) { ?>
+    <?php if(!isset($_SESSION)) { 
+        if($_SESSION['level'] == 1)?>
     <div class="main">
         <!-- // Menu edicion de subastas -->
         <div class="eSubasta">
-            <p>Edición de subasta</p> <br />
+            <p style="font-size: 20px;">Edición de subasta</p> <br />
             <form method="post">
-                <label for="subastaId">Id de la subasta: </label>
-                <input name="subastaId" id="subastaId">
-                <label for=""></label>
-                <input type="text">
-                
+                <label for="subastaId">Id: </label>
+                <input type="number" name="subastaId" id="subastaId">
+                <label for="subastaNombre">Nombre:</label>
+                <input type="text" name="subastaNombre" id="subastaNombre">
+                <label for="subastaFechaFin">Fecha fin:</label>
+                <input type="number" name="subastaFechaFin" id="subastaFechaFin">
+                <label for="subastaPrecioActual">Precio Actual:</label>
+                <input type="number" name="subastaPrecioActual" id="subastaPrecioActual">
                 <input type="submit" value="Editar" name="editarSubastas" class="btn">
             </form>
         </div>
         <!-- // Menu edicion de usuarios -->
         <div class="eUsuario">
-            <p>Edición de usuarios</p>
+            <p style="font-size: 20px;">Edición de usuarios</p> <br />
+            <form method="post">
+                <label for="subastaId">Id: </label>
+                <input type="number" name="subastaId" id="subastaId">
+                <label for="subastaNombre">Nombre:</label>
+                <input type="text" name="subastaNombre" id="subastaNombre">
+                <label for="subastaFechaFin">Fecha fin:</label>
+                <input type="number" name="subastaFechaFin" id="subastaFechaFin">
+                <label for="subastaPrecioActual">Precio Actual:</label>
+                <input type="number" name="subastaPrecioActual" id="subastaPrecioActual">
+
+                
+                <input type="submit" value="Editar" name="editarSubastas" class="btn">
+            </form>
         </div>
     </div>
     <?php } ?>
@@ -76,8 +94,9 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
         </div>
     <?php } ?>
     <!-- // Muestra la tabla de subastas -->
-    <div class="main">
     <?php if(isset($_SESSION['level'])) { ?>
+    <div class="moneda"><br /><p>Añadir moneda</p><br /><form method="post"><input type="number" name="addmoneda"><input type="submit" value="Editar" name="agregarmoneda" class="btn"></form></div>
+    <div class="main">
             <table>
                 <tr>
                     <?php if($_SESSION['level'] == 1) { ?><th>Id</th><?php } ?>
@@ -88,6 +107,8 @@ if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
                     <th>Precio Actual</th>
                     <th>Puja</th>
                     <th></th>
+                    <th></th>
+                    <?php if($_SESSION['level'] == 1) { ?><th class="tac">¿Caducada?</th><?php } else { ?><th></th><?php } ?>
                 </tr>
                 <?php if($_SESSION['level'] == 1){Subasta::mostrarTodas();} else { Subasta::mostarSubastas();} ?>
             </table>
