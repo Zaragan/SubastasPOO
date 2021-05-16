@@ -49,5 +49,13 @@ class Usuario {
             return $moneda;
         }
     }
+
+    static public function addmoneda($moneda, $uid) {
+        $antes = Database::addQuery("SELECT moneda FROM `users` WHERE uid=?", $uid);
+        foreach($antes as $row) {
+            $despues = $moneda + $row['moneda'];
+        }
+        Database::addQuery("UPDATE `users` SET `moneda`= $despues WHERE uid=?", $uid);
+    }
 }
 ?>
