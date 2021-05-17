@@ -3,7 +3,6 @@ include("assets/php/Usuario.php");
 include("assets/php/Subasta.php");
 include("assets/php/Funciones.php");
 session_start();
-
 //  MENSAJES DE ERROR
 $log_error = "";
 if(isset($_GET['mensaje'])&&($_GET['mensaje']=='error_formatoEmail')){$log_error = "<br><br>El formato del email es erroneo.";}
@@ -17,7 +16,7 @@ if(isset($_GET['mensaje'])&&($_GET['mensaje']=='inicia')){$log_error = "<br><br>
 if(isset($_POST['crear_usuario'])) {Usuario::crearUsuario($_POST['user'],$_POST['password']);}
 if(isset($_POST['identificar'])) {Usuario::identificarUsuario($_POST['user'],$_POST['password']);}
 if(isset($_POST['enviar'])) {Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);}
-if(isset($_POST['pujar'])) {Subasta::pujar($_POST['sid'], $_POST['puja']);}
+if(isset($_POST['pujar'])) {Subasta::pujar($_POST['sid'], $_POST['puja'], $_SESSION['username']);}
 if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
 if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SESSION['uid']);}
 
@@ -105,10 +104,9 @@ if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SE
                     <th>Fecha Fin</th>
                     <th>Precio Salida</th>
                     <th>Precio Actual</th>
-                    <th>Puja</th>
-                    <th></th>
-                    <th></th>
-                    <?php if($_SESSION['level'] == 1) { ?><th class="tac">¿Caducada?</th><?php } else { ?><th></th><?php } ?>
+                    <th>Usuario</th>
+                    <th>Cantidad</th>
+                    <?php if($_SESSION['level'] == 1) { ?><th></th><th class="tac">¿Caducada?</th><?php } else { ?><th></th><?php } ?>
                 </tr>
                 <?php if($_SESSION['level'] == 1){Subasta::mostrarTodas();} else { Subasta::mostarSubastas();} ?>
             </table>
