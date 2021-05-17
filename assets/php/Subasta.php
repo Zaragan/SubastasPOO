@@ -54,6 +54,7 @@ class Subasta {
                     echo '<td>'.$fecha_fin.'</td>';
                     echo '<td>'.$row['precio_salida'].'</td>';
                     echo '<td>'.$row['precio_actual'].'</td>';
+                    echo '<td>'.$row['puja'].'</td>';
                     echo '<td><form method="post"><input type="text" name="puja"></td>';
                     echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
                     echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
@@ -78,11 +79,11 @@ class Subasta {
                 echo '<td>'.$fecha_fin.'</td>';
                 echo '<td>'.$row['precio_salida'].'</td>';
                 echo '<td>'.$row['precio_actual'].'</td>';
+                echo '<td>'.$row['puja'].'</td>';
                 echo '<td><form method="post"><input type="text" name="puja"></td>';
-                echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
-                echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
+                    echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
+                    echo '<td><input type="submit" value="Pujar" name="pujar" class="btn"></form></td>';
                 if($_SESSION['level'] == 1) {
-                    echo '<td></td>';
                     if($row['caducada'] == 1){
                         echo '<td>Si</td>';
                     } else {
@@ -108,7 +109,7 @@ class Subasta {
         }
     }
 
-    static public function pujar($sid, $cantidad) {
+    static public function pujar($sid, $cantidad, $uid) {
         
         //  Sacamos el precio de la subasta y calculamos el 15%
         $precio_actual = Database::addQuery("SELECT precio_actual FROM subastas WHERE sid=?", $sid);
@@ -131,7 +132,8 @@ class Subasta {
         } else if ($moneda <= $cantidad) {
             header('Location: Index.php?mensaje=error_pobre');
         } else {
-            Database::addQuery("UPDATE `subastas` SET `precio_actual`= $cantidad WHERE sid=?", $sid);
+            //Database::addQuery("UPDATE `subastas` SET `precio_actual`= $cantidad WHERE sid=?", $sid);
+            Database::addQuery("UPDATE `subastas` SET `puja`='$uid' WHERE sid=?", $sid);
             $moneda -= $cantidad;
             Database::addQuery("UPDATE `users` SET `moneda`= $moneda WHERE uid=?", $_SESSION['uid']);
             header('Location: Index.php');
