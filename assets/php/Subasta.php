@@ -22,14 +22,9 @@ class Subasta {
             $fecha_fin = $unixTime+$setTime;
             break;
         }   
-        Database::addQuery("INSERT INTO `subastas`(uid, nombre, fecha, fecha_fin, precio_salida, precio_actual) VALUES ($_SESSION[uid],'$nombre','$unixTime','$fecha_fin','$precio_salida','$precio_salida')", null);
+        Database::addQuery("INSERT INTO `subastas`(uid, nombre, fecha, fecha_fin, precio_salida, precio_actual, puja) VALUES ($_SESSION[uid],'$nombre','$unixTime','$fecha_fin','$precio_salida','$precio_salida','$_SESSION[username]')", null);
         header('Location: Index.php');
     }
-
-    static public function editar($sid) {
-
-    }
-
 
     static public function mostarSubastas() {
         $subastas = Database::addQuery("SELECT * FROM subastas", null);

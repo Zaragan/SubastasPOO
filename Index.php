@@ -39,40 +39,6 @@ if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SE
     <!-- // Editor de subastas y usuarios -->
     <?php if(!isset($_SESSION)) { 
         if($_SESSION['level'] == 1)?>
-    <div class="main">
-        <!-- // Menu edicion de subastas -->
-        <div class="eSubasta">
-            <p style="font-size: 20px;">Edición de subasta</p> <br />
-            <form method="post">
-                <label for="subastaId">Id: </label>
-                <input type="number" name="subastaId" id="subastaId">
-                <label for="subastaNombre">Nombre:</label>
-                <input type="text" name="subastaNombre" id="subastaNombre">
-                <label for="subastaFechaFin">Fecha fin:</label>
-                <input type="number" name="subastaFechaFin" id="subastaFechaFin">
-                <label for="subastaPrecioActual">Precio Actual:</label>
-                <input type="number" name="subastaPrecioActual" id="subastaPrecioActual">
-                <input type="submit" value="Editar" name="editarSubastas" class="btn">
-            </form>
-        </div>
-        <!-- // Menu edicion de usuarios -->
-        <div class="eUsuario">
-            <p style="font-size: 20px;">Edición de usuarios</p> <br />
-            <form method="post">
-                <label for="subastaId">Id: </label>
-                <input type="number" name="subastaId" id="subastaId">
-                <label for="subastaNombre">Nombre:</label>
-                <input type="text" name="subastaNombre" id="subastaNombre">
-                <label for="subastaFechaFin">Fecha fin:</label>
-                <input type="number" name="subastaFechaFin" id="subastaFechaFin">
-                <label for="subastaPrecioActual">Precio Actual:</label>
-                <input type="number" name="subastaPrecioActual" id="subastaPrecioActual">
-
-                
-                <input type="submit" value="Editar" name="editarSubastas" class="btn">
-            </form>
-        </div>
-    </div>
     <?php } ?>
     <!-- // Menu creacion de subastas -->
     <?php if(isset($_GET['page'])&&($_GET['page']=='new_subasta')){ ?>
