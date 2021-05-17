@@ -17,7 +17,6 @@ if(isset($_POST['crear_usuario'])) {Usuario::crearUsuario($_POST['user'],$_POST[
 if(isset($_POST['identificar'])) {Usuario::identificarUsuario($_POST['user'],$_POST['password']);}
 if(isset($_POST['enviar'])) {Subasta::crearSubasta($_POST['sNombre'],$_POST['sPrecio'],$_POST['tiempo']);}
 if(isset($_POST['pujar'])) {Subasta::pujar($_POST['sid'], $_POST['puja'], $_SESSION['username']);}
-if(isset($_POST['editarSubastas'])) {Subasta::editar($_POST['subastaId']);}
 if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SESSION['uid']);}
 
 ?>
