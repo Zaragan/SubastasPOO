@@ -21,7 +21,8 @@ class Funciones {
                         <li><a href="Index.php">Inicio</a></li>
                         <li><a href="Index.php?page=new_subasta">Crear subastas</a></li>
                         <li>Moneda: '.Usuario::getMoneda($_SESSION['uid']).'</li>
-                        <li class="menu"><p>Bienvenido admin '.$_SESSION['username'].'</p><a href="assets/php/desconectar.php">Desconectar</a></li>
+                        <li class="menu"></li>
+                        <li class="menu"><p><a href="perfil.php">Perfil admin: '.$_SESSION['username'].'</a></p><a href="assets/php/desconectar.php">Desconectar</a></li>
                     </ul>';
         } else {
             //          USER ZONE
@@ -29,7 +30,7 @@ class Funciones {
                         <li><a href="Index.php">Inicio</a></li>
                         <li><a href="Index.php?page=new_subasta">Crear subastas</a></li>
                         <li>Moneda: '.Usuario::getMoneda($_SESSION['uid']).'</li>
-                        <li class="menu"><p>Bienvenido '.$_SESSION['username'].'</p><a href="assets/php/desconectar.php">Desconectar</a></li>
+                        <li class="menu"><p><a href="perfil.php">Perfil '.$_SESSION['username'].'</a></p><a href="assets/php/desconectar.php">Desconectar</a></li>
                     </ul>';
         }
         echo $menu;

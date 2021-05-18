@@ -104,6 +104,36 @@ class Subasta {
         }
     }
 
+    static public function mostrarPropias($uid) {
+        //      SID NOMBRE FECHA    FECHA_FIN   PRECIO_SALIDA   PRECIO_ACTUAL   PUJA    CADUCADA
+        $subasta = Database::addQuery("SELECT subastas.sid,subastas.nombre,subastas.fecha,subastas.fecha_fin,subastas.precio_salida,subastas.precio_actual,subastas.puja,subastas.caducada FROM `subastas` INNER JOIN `users` ON subastas.uid=users.uid WHERE subastas.uid=?", $uid);
+        foreach($subasta as $row) {
+            $fecha_creada = date("d / m / Y - G:i", $row['fecha']);
+            $fecha_fin = date("d / m / Y - G:i", $row['fecha_fin']);
+            echo '<tr>';
+            echo '<td>'.$row['sid'].'</td>';
+            echo '<td>'.$row['nombre'].'</td>';
+            echo '<td>'.$fecha_creada.'</td>';
+            echo '<td>'.$fecha_fin.'</td>';
+            echo '<td>'.$row['precio_salida'].'</td>';
+            echo '<td>'.$row['precio_actual'].'</td>';
+            echo '<td>'.$row['puja'].'</td>';
+            if($row['caducada'] == 1) {
+                echo '<td>Si</td>';
+            } else {
+                echo '<td>No</td>';
+            }
+            echo '<td><form method="post"></td>';
+            echo '<input type="hidden" name="sid" value="'.$row['sid'].'" readonly>';
+            echo '<td><input type="submit" value="Borrar" name="borrar" class="btn"></form></td>';
+        echo '</tr>';
+        }
+    }
+
+    static public function sBorrar($sid) {
+        Database::addQuery("DELETE FROM `subastas` WHERE sid=?", $sid);
+    }
+
     static public function pujar($sid, $cantidad, $uid) {
         
         //  Sacamos el precio de la subasta y calculamos el 15%
