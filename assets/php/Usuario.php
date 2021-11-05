@@ -6,6 +6,7 @@ class Usuario {
         if(Funciones::validarEmail($username) == true) {
             $hashpass = password_hash($password, PASSWORD_ARGON2ID);
             $usuario = Funciones::parse_email($username);
+            $unixtime = time();
             $user = Database::addQuery("SELECT username FROM users", null);
             $isRegistered = false;
             foreach($user as $row) {
@@ -16,7 +17,7 @@ class Usuario {
                 } 
             }
             if($isRegistered == false) {
-                Database::addQuery("INSERT INTO `users`(`username`, `nombre`, `password`) VALUES ('$username', '$usuario', '$hashpass')", null);
+                Database::addQuery("INSERT INTO `users`(`username`, `nombre`, `password`, `created`) VALUES ('$username', '$usuario', '$hashpass', '$unixtime')", null);
                 Usuario::identificarUsuario($username, $password);
                 header('Location: Index.php');
             }
