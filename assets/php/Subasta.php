@@ -22,7 +22,7 @@ class Subasta {
             $fecha_fin = $unixTime+$setTime;
             break;
         }   
-        Database::addQuery("INSERT INTO `subastas`(uid, nombre, fecha, fecha_fin, precio_salida, precio_actual, puja) VALUES ($_SESSION[uid],'$nombre','$unixTime','$fecha_fin','$precio_salida','$precio_salida','$_SESSION[username]')", null);
+        Database::addQuery("INSERT INTO `subastas`(uid, nombre, fecha, fecha_fin, precio_salida, precio_actual, puja) VALUES ($_SESSION[uid],'$nombre','$unixTime','$fecha_fin','$precio_salida','$precio_salida','$_SESSION[nombre]')", null);
         header('Location: Index.php');
     }
 
@@ -142,7 +142,7 @@ class Subasta {
             $precio_actual = $row['precio_actual'];
         }
         $precio_actual += $precio_actual*15/100;
-
+        
         //  Sacamos la moneda del usuario
         $moneda = Database::addQuery("SELECT moneda FROM users WHERE uid=?", $_SESSION['uid']);
         foreach($moneda as $row) {
@@ -157,8 +157,7 @@ class Subasta {
         } else if ($moneda <= $cantidad) {
             header('Location: Index.php?mensaje=error_pobre');
         } else {
-            //Database::addQuery("UPDATE `subastas` SET `precio_actual`= $cantidad WHERE sid=?", $sid);
-            Database::addQuery("UPDATE `subastas` SET `puja`='$uid' WHERE sid=?", $sid);
+            Database::addQuery("UPDATE `subastas` SET `precio_actual`= $cantidad, `puja` = '$_SESSION[nombre]' WHERE sid=?", $sid);
             $moneda -= $cantidad;
             Database::addQuery("UPDATE `users` SET `moneda`= $moneda WHERE uid=?", $_SESSION['uid']);
             header('Location: Index.php');

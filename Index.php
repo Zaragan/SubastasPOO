@@ -47,7 +47,7 @@ if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SE
                 <label for="sNombre">Nombre: </label>
                 <input type="text" name="sNombre" id="sPrecio">
                 <label for="sPrecio">Precio: </label>
-                <input name="sPrecio" id="sPrecio">
+                <input name="sPrecio" id="sPrecio" type="number">
                 <select name="tiempo" id="timepo">
                     <option value="1day">1 día</option>
                     <option value="1week">1 mes</option>
@@ -59,7 +59,7 @@ if(isset($_POST['agregarmoneda'])) {Usuario::addmoneda($_POST['addmoneda'], $_SE
     <?php } ?>
     <!-- // Muestra la tabla de subastas -->
     <?php if(isset($_SESSION['level'])) { ?>
-    <div class="moneda"><br /><p>Añadir moneda</p><br /><form method="post"><input type="number" name="addmoneda"><input type="submit" value="Editar" name="agregarmoneda" class="btn"></form></div>
+    <div class="moneda"><br /><form method="post"><input type="number" name="addmoneda" placeholder="Añadir moneda"><input type="submit" value="Editar" name="agregarmoneda" class="btn"></form></div>
     <div class="main">
             <table>
                 <tr>

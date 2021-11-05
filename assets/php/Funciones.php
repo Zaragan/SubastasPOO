@@ -44,6 +44,14 @@ class Funciones {
     static public function validarEmail($email) {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
+
+    static public function parse_email($email) {
+        $parts = explode("@", $email);
+        $domain = array_pop($parts);
+        $name = implode("@",$parts);
+        return $name;
+
+    }
    
 }
 

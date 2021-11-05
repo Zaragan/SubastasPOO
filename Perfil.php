@@ -30,7 +30,7 @@ if(isset($_POST['borrar'])) {Subasta::sBorrar($_POST['sid']);}
                 <th>Precio Salida</th>
                 <th>Precio Actual</th>
                 <th>Usuario</th>
-                <th>¿Caducada</th>
+                <th>¿Caducada?</th>
             </tr>
             <?php Subasta::mostrarPropias($_SESSION['uid']); ?>
         </table>

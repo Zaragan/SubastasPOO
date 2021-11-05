@@ -5,6 +5,7 @@ class Usuario {
     static public function crearUsuario($username, $password) {
         if(Funciones::validarEmail($username) == true) {
             $hashpass = password_hash($password, PASSWORD_ARGON2ID);
+            $usuario = Funciones::parse_email($username);
             $user = Database::addQuery("SELECT username FROM users", null);
             $isRegistered = false;
             foreach($user as $row) {
@@ -15,7 +16,7 @@ class Usuario {
                 } 
             }
             if($isRegistered == false) {
-                Database::addQuery("INSERT INTO `users`(`username`, `password`) VALUES ('$username','$hashpass')", null);
+                Database::addQuery("INSERT INTO `users`(`username`, `nombre`, `password`) VALUES ('$username', '$usuario', '$hashpass')", null);
                 Usuario::identificarUsuario($username, $password);
                 header('Location: Index.php');
             }
@@ -31,6 +32,7 @@ class Usuario {
                 if($row['username'] == $username && password_verify($password, $row['password']) == true) {
                     $_SESSION['uid']=$row['uid'];
                     $_SESSION['username']=$row['username'];
+                    $_SESSION['nombre']=$row['nombre'];
                     $_SESSION['level']=$row['level'];
                     $_SESSION['moneda']=$row['moneda'];
                 } else {

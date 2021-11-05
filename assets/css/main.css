@@ -5,10 +5,6 @@ a {
 	text-decoration: none;
 }
 
-p {
-	margin: 0;
-}
-
 img {
 	position: fixed;
 	max-height: 130px;
@@ -160,7 +156,7 @@ input {
 }
 
 p {
-	margin-right: 20px;
+	margin: 0 20px 0 20px;
 }
 
 .main, .tabla {
